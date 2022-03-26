@@ -82,7 +82,7 @@ class PetFriends:
             'animal_type': animal_type,
             'age': age,
         })
-        res = requests.post(self.base.url+'api/pets'+pet_id, headers=headers, data=data)
+        res = requests.put(self.base.url+'api/pets'+pet_id, headers=headers, data=data)
         status = res.status_code
         result = ''
         try:
@@ -90,3 +90,5 @@ class PetFriends:
         except json.decoder.JSONDecodeError:
             result = res.text
         return status, result
+
+# next my methods for the module 19
