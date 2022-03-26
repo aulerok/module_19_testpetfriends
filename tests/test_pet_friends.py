@@ -1,4 +1,4 @@
-"""ащк еру test test_pet_friends file """
+"""for the testing test_pet_friends"""
 from api import PetFriends
 from settings import *
 
