@@ -9,7 +9,7 @@ class PetFriends:
     """api library for the web PetFriends"""
 
     def __init__(self):
-        self.base.url = "https://petfriends1.herokuapp.com/"
+        self.base_url = "https://petfriends1.herokuapp.com/"
 
     def get_api_key(self, email: str, password: str) -> json:
         """metod get request for api serverand return result for json format"""
@@ -17,7 +17,7 @@ class PetFriends:
             'email': email,
             'password': password,
         }
-        res = requests.get(self.base.url+'api/key', headers=headers)
+        res = requests.get(self.base_url+'api/key', headers=headers)
         status = res.status_code
         result = ""
         try:
@@ -31,7 +31,7 @@ class PetFriends:
 
         headers = {'auth_key': auth_key['key']}
         filter = {'filter': filter}
-        res = requests.get(self.base.url+'api/pets', headers=headers, params=filter)
+        res = requests.get(self.base_url + 'api/pets', headers=headers, params=filter)
         status = res.status_code
         result = ""
         try:
@@ -50,7 +50,7 @@ class PetFriends:
             'pet_photo': (pet_photo, open(pet_photo, 'rb'), 'image/jpeg')
         })
         headers = {'auth_key': auth_key['key'], 'Content-Type': data.content_type}
-        res = requests.post(self.base.url+'api/pets', headers=headers, params=data)
+        res = requests.post(self.base_url+'api/pets', headers=headers, data=data)
         status = res.status_code
         result = ""
         try:
@@ -64,7 +64,7 @@ class PetFriends:
         """method delete one of the pets for you're requested"""
 
         headers = {'auth_key': auth_key['key']}
-        res = requests.delete(self.base.url+'api/pets' + pet_id, headers=headers)
+        res = requests.delete(self.base_url + 'api/pets/' + pet_id, headers=headers)
         status = res.status_code
         result = ""
         try:
@@ -73,16 +73,16 @@ class PetFriends:
             result = res.text
         return status, result
 
-    def update_pet_info(self,auth_key: json, pet_id: str, name: str, animal_type: str, age: int):
+    def update_pet_info(self, auth_key: json, pet_id: str, name: str, animal_type: str, age: str):
         """methot will update information about you're pet"""
 
         headers = {'auth_key': auth_key['key']}
-        data = MultipartEncoder({
+        data = {
             'name': name,
             'animal_type': animal_type,
             'age': age,
-        })
-        res = requests.put(self.base.url+'api/pets'+pet_id, headers=headers, data=data)
+        }
+        res = requests.put(self.base_url+'api/pets/' + pet_id, headers=headers, data=data)
         status = res.status_code
         result = ''
         try:
