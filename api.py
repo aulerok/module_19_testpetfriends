@@ -40,7 +40,8 @@ class PetFriends:
             result = res.text
         return status, result
 
-    def add_new_pet(self,auth_key: json, name: str, animal_type: str, age: str, pet_photo: str) -> json:
+
+    def add_new_pet(self, auth_key: json, name: str, animal_type: str, age: str, pet_photo: str) -> json:
         """method posting a new pet on the server base_url"""
 
         data = MultipartEncoder({
@@ -60,7 +61,7 @@ class PetFriends:
         print(result)
         return status, result
 
-    def delete_pet(self,auth_key: json, pet_id: str) -> json:
+    def delete_pet(self, auth_key: json, pet_id: str) -> json:
         """method delete one of the pets for you're requested"""
 
         headers = {'auth_key': auth_key['key']}
@@ -92,3 +93,36 @@ class PetFriends:
         return status, result
 
 # next my methods for the module 19
+
+    def create_pet_simple(self, auth_key: json, name: str, animal_type: str, age: str):
+        """method fast simple add pet"""
+        headers = {'auth_key': auth_key['key']}
+        data = {
+            'name': name,
+            'animal_type': animal_type,
+            'age': age
+        }
+        res = requests.post(self.base_url + '/api/create_pet_simple', headers=headers, data=data)
+        status = res.status_code
+        result = ''
+        try:
+            result = res.json()
+        except json.decoder.JSONDecodeError:
+            result = res.text
+        return status, result
+
+    def add_photo_of_the_pet(self, auth_key: json, pet_id: str, pet_photo: str):
+        """ method add photo for the pet"""
+
+        data = MultipartEncoder({'pet_photo': (pet_photo, open(pet_photo, 'rb'), 'image/jpeg')})
+
+        headers = {'auth_key': auth_key['key'], 'Content-Type': data.content_type}
+
+        res = requests.post(self.base_url+'api/pets/set_photo/' + pet_id, headers=headers, data=data)
+        status = res.status_code
+        result = ""
+        try:
+            result = res.json()
+        except json.decoder.JSONDecodeError:
+            result = res.text
+        return status, result
