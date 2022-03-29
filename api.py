@@ -17,7 +17,7 @@ class PetFriends:
             'email': email,
             'password': password,
         }
-        res = requests.get(self.base_url+'api/key', headers=headers)
+        res = requests.get(self.base_url + 'api/key', headers=headers)
         status = res.status_code
         result = ""
         try:
@@ -40,7 +40,6 @@ class PetFriends:
             result = res.text
         return status, result
 
-
     def add_new_pet(self, auth_key: json, name: str, animal_type: str, age: str, pet_photo: str) -> json:
         """method posting a new pet on the server base_url"""
 
@@ -51,7 +50,7 @@ class PetFriends:
             'pet_photo': (pet_photo, open(pet_photo, 'rb'), 'image/jpeg')
         })
         headers = {'auth_key': auth_key['key'], 'Content-Type': data.content_type}
-        res = requests.post(self.base_url+'api/pets', headers=headers, data=data)
+        res = requests.post(self.base_url + 'api/pets', headers=headers, data=data)
         status = res.status_code
         result = ""
         try:
@@ -83,7 +82,7 @@ class PetFriends:
             'animal_type': animal_type,
             'age': age,
         }
-        res = requests.put(self.base_url+'api/pets/' + pet_id, headers=headers, data=data)
+        res = requests.put(self.base_url + 'api/pets/' + pet_id, headers=headers, data=data)
         status = res.status_code
         result = ''
         try:
@@ -92,7 +91,7 @@ class PetFriends:
             result = res.text
         return status, result
 
-# next my methods for the module 19
+    # next my methods for the module 19
 
     def create_pet_simple(self, auth_key: json, name: str, animal_type: str, age: str):
         """method fast simple add pet"""
@@ -118,7 +117,7 @@ class PetFriends:
 
         headers = {'auth_key': auth_key['key'], 'Content-Type': data.content_type}
 
-        res = requests.post(self.base_url+'api/pets/set_photo/' + pet_id, headers=headers, data=data)
+        res = requests.post(self.base_url + 'api/pets/set_photo/' + pet_id, headers=headers, data=data)
         status = res.status_code
         result = ""
         try:
@@ -126,3 +125,4 @@ class PetFriends:
         except json.decoder.JSONDecodeError:
             result = res.text
         return status, result
+
